@@ -1,0 +1,5 @@
+<?php require 'database.php';auth();$title='Results';$sub='All published results.';include 'header.php';
+$rows=$db->query("SELECT s.id sid,s.student_name,s.enrollment_no,r.* FROM results r JOIN students s ON s.id=r.student_id ORDER BY r.percentage DESC");?>
+<div class="cardx fade-in"><div class="table-responsive"><table class="table table-hover align-middle"><tr><th>Student</th><th>Enrollment</th><th>Total</th><th>%</th><th>Grade</th><th>Status</th><th></th></tr>
+<?php foreach($rows as $r):?><tr><td><?=e($r['student_name'])?></td><td><?=e($r['enrollment_no'])?></td><td><?=$r['total_marks']?>/500</td><td><?=e($r['percentage'])?>%</td><td><span class="badge bg-grad"><?=e($r['grade'])?></span></td><td><span class="badge bg-<?=$r['result_status']=='PASS'?'success':'danger'?>"><?=e($r['result_status'])?></span></td><td><a class="btn btn-sm btn-info text-white" href="view_result.php?id=<?=$r['sid']?>">View</a> <a class="btn btn-sm btn-warning" href="add_result.php?id=<?=$r['sid']?>">Edit</a></td></tr><?php endforeach;?></table></div></div>
+<?php include 'footer.php';

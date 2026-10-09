@@ -1,0 +1,10 @@
+<?php require 'database.php';auth();$q='%'.trim($_GET['q']??'').'%';
+$s=$db->prepare("SELECT * FROM students WHERE student_name LIKE ? OR enrollment_no LIKE ? ORDER BY id");$s->bind_param('ss',$q,$q);$s->execute();$rows=$s->get_result();
+$title='Student Management';$sub='View, edit and remove students.';include 'header.php';?>
+<div class="cardx fade-in"><div class="d-flex flex-wrap gap-2 mb-3"><form class="flex-grow-1"><input name="q" class="form-control" placeholder="🔎 Search students..." value="<?=e($_GET['q']??'')?>"></form><a href="add_student.php" class="btn btn-grad"><i class="bi bi-plus-lg"></i> Add Student</a></div>
+<div class="table-responsive"><table class="table table-hover align-middle"><tr><th>ID</th><th>Enrollment No.</th><th>Student Name</th><th>Course</th><th>Semester</th><th>Section</th><th>Actions</th></tr>
+<?php foreach($rows as $r):?><tr><td><?=$r['id']?></td><td><?=e($r['enrollment_no'])?></td><td><?=e($r['student_name'])?></td><td><?=e($r['course'])?></td><td><?=e($r['semester'])?></td><td><?=e($r['section'])?></td>
+<td><a class="btn btn-sm btn-info text-white" href="view_result.php?id=<?=$r['id']?>"><i class="bi bi-eye"></i></a> <a class="btn btn-sm btn-warning" href="edit_student.php?id=<?=$r['id']?>"><i class="bi bi-pencil"></i></a> <button class="btn btn-sm btn-danger" data-del="<?=$r['id']?>" data-name="<?=e($r['student_name'])?>"><i class="bi bi-trash"></i></button></td></tr><?php endforeach;?></table></div></div>
+<div class="modal fade" id="delModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><form method="post" action="delete_student.php" class="modal-content"><input type="hidden" name="t" value="<?=csrf()?>"><input type="hidden" name="id" id="delId">
+<div class="modal-body text-center p-4"><i class="bi bi-exclamation-triangle text-danger display-4"></i><h5 class="mt-2">Delete <span id="delName"></span>?</h5><p class="text-muted">Their result will also be deleted.</p><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button> <button class="btn btn-danger">Delete</button></div></form></div></div>
+<?php include 'footer.php';

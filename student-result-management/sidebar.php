@@ -1,0 +1,3 @@
+<?php $cur=basename($_SERVER['SCRIPT_NAME']);$m=['dashboard.php'=>['house','Dashboard'],'manage_students.php'=>['mortarboard','Students'],'add_student.php'=>['person-plus','Add Student'],'manage_results.php'=>['bar-chart','Results'],'add_result.php'=>['plus-circle','Add Result'],'search_result.php'=>['search','Search Result'],'result_report.php'=>['file-earmark-text','Reports'],'logout.php'=>['box-arrow-right','Logout']];?>
+<aside class="sidebar" id="sidebar"><div class="brand"><i class="bi bi-mortarboard-fill"></i> Student Result</div>
+<?php foreach($m as $f=>$i):?><a href="<?=$f?>" class="<?=$cur==$f?'active':''?>"><i class="bi bi-<?=$i[0]?>"></i><?=$i[1]?></a><?php endforeach;?></aside>
